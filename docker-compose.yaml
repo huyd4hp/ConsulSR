@@ -1,0 +1,20 @@
+services:
+  consul-server:
+    image: hashicorp/consul
+    container_name: ConsulEventHub
+    hostname: consul
+    restart: always
+    volumes:
+      - ./server.json:/consul/config/server.json:ro
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    networks:
+      - ServiceNetwork
+    ports:
+      - "8700:8500"
+    command: consul agent -dev -client 0.0.0.0
+
+networks:
+  ServiceNetwork:
+    external: true
+    driver: bridge
